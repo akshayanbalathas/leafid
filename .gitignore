@@ -1,0 +1,21 @@
+# Dataset (download it, never commit it)
+data/*
+!data/README.md
+
+# Training outputs
+checkpoints/
+*.pt
+*.pth
+
+# Python / notebooks
+__pycache__/
+*.egg-info/
+.ipynb_checkpoints/
+.venv/
+
+# Secrets
+kaggle.json
+.env
+
+# Course handout (not ours to publish)
+CSCI 4052U - Final Project (2026).pdf

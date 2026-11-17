@@ -1,0 +1,11 @@
+torch>=2.2
+torchvision>=0.17
+numpy
+pandas
+pillow
+matplotlib
+tqdm
+transformers>=4.45
+accelerate
+gradio>=4.0
+kagglehub
