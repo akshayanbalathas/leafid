@@ -1,9 +1,9 @@
 """Evaluate a checkpoint on lab / field / all test images.
 
-Usage:  python -m leafid.evaluate --checkpoint checkpoints/resnet50_full.pt [--split test]
+Usage:  python -m leafid.evaluate --checkpoint checkpoints/resnet50_full.pt [--split test] [--save-dir DIR]
 
 Writes reports/<run>/metrics.json, confusions.csv (most-confused species pairs)
-and confusion_field.png.
+and confusion_field.png (under --save-dir / $LEAFID_OUTPUT if set).
 """
 import argparse
 import json
@@ -14,7 +14,7 @@ import pandas as pd
 import torch
 from tqdm import tqdm
 
-from .config import REPORTS_DIR
+from .config import reports_dir
 from .data import make_loader
 from .models import load_checkpoint
 
@@ -59,11 +59,13 @@ def main():
     ap.add_argument("--split", default="test")
     ap.add_argument("--batch-size", type=int, default=128)
     ap.add_argument("--num-workers", type=int, default=2)
+    ap.add_argument("--save-dir", type=Path, default=None,
+                    help="reports/ goes here (default: $LEAFID_OUTPUT or the repo root)")
     args = ap.parse_args()
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model, name, classes = load_checkpoint(args.checkpoint, device)
-    out_dir = REPORTS_DIR / args.checkpoint.stem
+    out_dir = reports_dir(args.save_dir) / args.checkpoint.stem
     out_dir.mkdir(parents=True, exist_ok=True)
 
     metrics = {"checkpoint": str(args.checkpoint), "model": name, "split": args.split}
