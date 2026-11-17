@@ -2,8 +2,7 @@
 
 > CSCI 4052U Machine Learning II, Final Project · *Project ID: TODO (from TA)* · *Team: TODO*
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<your-username>/leafid/blob/main/notebooks/LeafID_Colab.ipynb)
-<!-- TODO: fix the badge URL once the repo exists -->
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/akshayanbalathas/leafid/blob/main/notebooks/LeafID_Colab.ipynb)
 
 Upload a photo of a leaf; LeafID identifies the tree species (185 species), shows a Grad-CAM heatmap of
 where the model looked, and writes a species card with look-alikes and Ontario native/invasive status.
@@ -127,7 +126,6 @@ results stop being comparable.
 **Open TODOs**
 - [ ] Verify the 11 seeded rows in `assets/species_info.csv` against the Ontario Invasive Plant Council /
       Ontario government sources, then fill in the remaining species.
-- [ ] Fix the Colab badge + `REPO` URL in the notebook once the GitHub repo exists.
 - [ ] Add project ID, team names, video link and slides link at the top of this README.
 
 ## References
