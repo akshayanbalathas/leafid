@@ -11,7 +11,7 @@ import torch
 from torch import nn
 from torchvision.models import ResNet50_Weights, resnet50
 
-MODEL_NAMES = ("simple_cnn", "res_cnn", "resnet50", "resnet50_scratch")
+MODEL_NAMES = ("enhanced_cnn","simple_cnn", "res_cnn", "resnet50", "resnet50_scratch")
 
 
 def conv_block(c_in: int, c_out: int) -> nn.Sequential:
@@ -22,7 +22,53 @@ def conv_block(c_in: int, c_out: int) -> nn.Sequential:
         nn.MaxPool2d(2),
     )
 
+class EnhancedCNN(nn.Module):
+    """Deeper CNN with 512-feature image representations."""
 
+    def __init__(self, num_classes: int, dropout: float = 0.3):
+        super().__init__()
+
+        widths = (64, 128, 256, 512, 512)
+        channels = (3, *widths)
+
+        self.features = nn.Sequential(
+            *[
+                self._make_block(in_ch, out_ch)
+                for in_ch, out_ch in zip(channels, channels[1:])
+            ]
+        )
+
+        self.pool = nn.AdaptiveAvgPool2d(1)
+        self.classifier = nn.Sequential(
+            nn.Dropout(dropout),
+            nn.Linear(widths[-1], num_classes),
+        )
+
+    @staticmethod
+    def _make_block(in_channels, out_channels):
+        return nn.Sequential(
+            nn.Conv2d(
+                in_channels, out_channels, 3, padding=1, bias=False
+            ),
+            nn.BatchNorm2d(out_channels),
+            nn.ReLU(inplace=True),
+
+            nn.Conv2d(
+                out_channels, out_channels, 3, padding=1, bias=False
+            ),
+            nn.BatchNorm2d(out_channels),
+            nn.ReLU(inplace=True),
+
+            nn.MaxPool2d(2),
+        )
+
+    def extract_features(self, x, pooled=True):
+        x = self.features(x)
+        return self.pool(x).flatten(1) if pooled else x
+
+    def forward(self, x):
+        return self.classifier(self.extract_features(x))
+    
 class SimpleCNN(nn.Module):
     """224 -> 112 -> 56 -> 28 -> 14 -> 7, then global average pool."""
 
@@ -76,6 +122,8 @@ class ResCNN(nn.Module):
 
 
 def build_model(name: str, num_classes: int) -> nn.Module:
+    if name == "enhanced_cnn":
+        return EnhancedCNN(num_classes)
     if name == "simple_cnn":
         return SimpleCNN(num_classes)
     if name == "res_cnn":
