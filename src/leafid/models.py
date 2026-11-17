@@ -5,6 +5,7 @@
   resnet50          ImageNet-pretrained ResNet-50, new 185-way head (transfer learning)
   resnet50_scratch  same architecture, random init (isolates the effect of pretraining)
 """
+import os
 from pathlib import Path
 
 import torch
@@ -160,7 +161,9 @@ def gradcam_layer(model: nn.Module, name: str) -> nn.Module:
 
 def save_checkpoint(path: Path, model: nn.Module, name: str, classes: list[str], extra: dict | None = None):
     path.parent.mkdir(parents=True, exist_ok=True)
-    torch.save({"model_name": name, "classes": classes, "state_dict": model.state_dict(), **(extra or {})}, path)
+    tmp = path.with_name(path.name + ".tmp")  # write-then-rename: a disconnect can't leave a corrupt file
+    torch.save({"model_name": name, "classes": classes, "state_dict": model.state_dict(), **(extra or {})}, tmp)
+    os.replace(tmp, path)
 
 
 def load_checkpoint(path: Path, device: str = "cpu") -> tuple[nn.Module, str, list[str]]:

@@ -12,7 +12,7 @@ from PIL import Image
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms as T
 
-from .config import IMAGENET_MEAN, IMAGENET_STD, IMG_SIZE, RAW_DIR, SPLITS_DIR
+from .config import CACHE_DIR, CACHE_MARKER, IMAGENET_MEAN, IMAGENET_STD, IMG_SIZE, RAW_DIR, SPLITS_DIR
 
 
 INDEX_NAME = "leafsnap-dataset-images.txt"
@@ -35,6 +35,13 @@ def find_dataset_root(search_dir: Path = RAW_DIR) -> Path:
         if images.is_dir() and ((images / "lab").is_dir() or (images / "field").is_dir()):
             return images.parent.parent
     raise FileNotFoundError(f"LeafSnap dataset not found under {search_dir} (set LEAFID_DATA)")
+
+
+def image_root() -> Path:
+    """Read from the pre-resized cache when it's complete, otherwise from the original images."""
+    if (CACHE_DIR / CACHE_MARKER).exists():
+        return CACHE_DIR
+    return find_dataset_root()
 
 
 def build_transforms(train: bool, augment: bool = True) -> T.Compose:
@@ -73,7 +80,7 @@ def load_split(split: str, sources=("lab", "field")) -> pd.DataFrame:
 class LeafDataset(Dataset):
     def __init__(self, df: pd.DataFrame, root: Path | None = None, transform=None):
         self.df, self.transform = df, transform
-        self.root = Path(root) if root else find_dataset_root()
+        self.root = Path(root) if root else image_root()
 
     def __len__(self):
         return len(self.df)

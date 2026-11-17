@@ -73,17 +73,31 @@ photo ─▶ CLIP leaf gate ─▶ preprocess ─▶ ResNet-50 ─▶ softmax �
 
 ## 5. Run it
 
-**Colab (recommended):** open the notebook badge above, select a T4 GPU, run all cells.
+**Colab (recommended, free T4):** open the notebook badge above, choose a T4 GPU, and run sections 1–3 every
+session (setup, Google Drive, data). Then run only the cells you need. The notebook is built for free-tier limits:
+
+- **Disconnect-proof:** checkpoints and reports are written to Google Drive after every epoch, and every training
+  cell uses `--resume`. After a disconnect, re-run sections 1–3 and then the same training cell; it continues from
+  the last finished epoch.
+- **Fast data loading:** `python -m leafid.cache` shrinks every image once to 256 px on the local disk, so training
+  doesn't re-decode 800×600 JPEGs on Colab's 2 CPUs every epoch. Loaders switch to the cache automatically.
+- **Smoke test first:** section 4 runs a 2-epoch check of the whole pipeline and reports seconds per epoch.
 
 **Local (GPU with >10 GB VRAM):**
 ```bash
 pip install -r requirements.txt && pip install -e .
 # put the Kaggle dataset anywhere under data/ (the code searches for it), or point LEAFID_DATA at it
-python -m leafid.splits                      # only if splits/splits.csv is missing
-python -m leafid.train --model resnet50 --epochs 15 --freeze-epochs 3 --run resnet50_full
+python -m leafid.cache                       # optional: one-time resize, faster training
+python -m leafid.train --model resnet50 --epochs 15 --freeze-epochs 3 --run resnet50_full --resume
 python -m leafid.evaluate --checkpoint checkpoints/resnet50_full.pt
 python app/app.py --checkpoint checkpoints/resnet50_full.pt
 ```
+
+| Environment variable | Purpose | Default |
+|---|---|---|
+| `LEAFID_DATA` | folder to search for the LeafSnap dataset | `data/` |
+| `LEAFID_CACHE` | pre-resized image cache | `data/cache_256` |
+| `LEAFID_OUTPUT` | where `checkpoints/` and `reports/` are written (Colab: Google Drive) | repo root |
 
 ## 6. Repository layout
 
@@ -96,7 +110,8 @@ reports/<run>/              history.csv, metrics.json, confusion matrix, confusi
 splits/                     the shared fixed split (commit this!)
 src/leafid/
   config.py      paths + constants          models.py    CNN / ResCNN / ResNet-50 + checkpoints
-  splits.py      build the fixed split      train.py     training loop (two-stage fine-tune)
+  splits.py      build the fixed split      train.py     resumable training loop (two-stage fine-tune)
+  cache.py       one-time 256 px image cache
   data.py        image ↔ tensor, loaders    evaluate.py  lab/field top-1/top-5, confusions
   gradcam.py     Grad-CAM + overlay         leaf_gate.py CLIP zero-shot leaf check
   species_card.py  LLM species card         predict.py   end-to-end Predictor
