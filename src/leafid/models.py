@@ -137,9 +137,15 @@ def build_model(name: str, num_classes: int) -> nn.Module:
     raise ValueError(f"unknown model {name!r}; choose from {MODEL_NAMES}")
 
 
+HEAD_NAMES = ("fc", "head", "classifier")  # ResNet-50, our scratch CNNs, EnhancedCNN
+
+
 def head_parameters(model: nn.Module) -> list[nn.Parameter]:
-    head = model.fc if hasattr(model, "fc") else model.head
-    return list(head.parameters())
+    """Parameters of the final classification layer(s): trained at the full lr, never frozen."""
+    for name in HEAD_NAMES:
+        if hasattr(model, name):
+            return list(getattr(model, name).parameters())
+    raise AttributeError(f"{type(model).__name__} has no classification head named one of {HEAD_NAMES}")
 
 
 def set_backbone_trainable(model: nn.Module, trainable: bool) -> None:
