@@ -21,12 +21,18 @@ from .models import load_checkpoint
 
 @torch.no_grad()
 def predict_loader(model, loader, device, k: int = 5):
-    """Return (labels [N], topk predictions [N, k])."""
+    """Return (labels [N], topk predictions [N, k]).
+
+    Runs in mixed precision on GPU, like training: roughly half the activation memory
+    (the fp32 version hit OOM fallbacks on a T4 with EnhancedCNN) and faster.
+    """
     model.eval()
+    use_amp = str(device).startswith("cuda")
     labels, topk = [], []
     for x, y in tqdm(loader, desc="eval", leave=False):
-        logits = model(x.to(device, non_blocking=True))
-        topk.append(logits.topk(k, dim=1).indices.cpu())
+        with torch.autocast(device_type="cuda" if use_amp else "cpu", enabled=use_amp):
+            logits = model(x.to(device, non_blocking=True))
+        topk.append(logits.float().topk(k, dim=1).indices.cpu())
         labels.append(y)
     return torch.cat(labels).numpy(), torch.cat(topk).numpy()
 
