@@ -50,12 +50,14 @@ pressed specimen never cross splits). Test accuracy is reported separately for l
 | `enhanced_cnn` | deeper CNN from scratch | | | |
 | `res_cnn` | + residual connections | | | |
 | `resnet50_probe` | pretrained features, head only | | | |
-| `resnet50_full` | full two-stage fine-tune | | | |
+| `resnet50_full` | full two-stage fine-tune | **97.6%** | **93.1%** | **99.7%** |
 | `resnet50_labonly` | trained on lab only → domain shift | | | |
 | own Ontario photos | real-world check | | | |
 
 All numbers are on the held-out **test** split (3,254 lab / 1,163 field images), using each run's best epoch by
 field validation accuracy. `simple_cnn`: 30 epochs (~185 s each on a T4), best at epoch 28.
+`resnet50_full`: 15 epochs (3 frozen at ~174 s, 12 unfrozen at ~200 s), best at epoch 15. Unfreezing the backbone
+at epoch 4 lifts field validation accuracy from 49% to 83% in a single epoch.
 
 TODO: training curves, confusion matrix, most-confused species pairs, Grad-CAM comparisons.
 

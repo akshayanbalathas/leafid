@@ -1,0 +1,15 @@
+{
+  "checkpoint": "/content/drive/MyDrive/leafid/checkpoints/resnet50_full.pt",
+  "model": "resnet50",
+  "split": "test",
+  "lab": {
+    "n": 3254,
+    "top1": 0.9757221880762139,
+    "top5": 0.9981561155500922
+  },
+  "field": {
+    "n": 1163,
+    "top1": 0.9312123817712812,
+    "top5": 0.9965606190885641
+  }
+}
