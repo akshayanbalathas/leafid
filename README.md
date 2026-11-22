@@ -46,12 +46,16 @@ pressed specimen never cross splits). Test accuracy is reported separately for l
 | Run | What it tests | Lab top-1 | Field top-1 | Field top-5 |
 |---|---|---|---|---|
 | CLIP zero-shot | no training at all | | | |
-| `simple_cnn` | small CNN from scratch | | | |
+| `simple_cnn` | small CNN from scratch | 81.9% | 72.1% | 94.2% |
+| `enhanced_cnn` | deeper CNN from scratch | | | |
 | `res_cnn` | + residual connections | | | |
 | `resnet50_probe` | pretrained features, head only | | | |
 | `resnet50_full` | full two-stage fine-tune | | | |
 | `resnet50_labonly` | trained on lab only → domain shift | | | |
 | own Ontario photos | real-world check | | | |
+
+All numbers are on the held-out **test** split (3,254 lab / 1,163 field images), using each run's best epoch by
+field validation accuracy. `simple_cnn`: 30 epochs (~185 s each on a T4), best at epoch 28.
 
 TODO: training curves, confusion matrix, most-confused species pairs, Grad-CAM comparisons.
 
