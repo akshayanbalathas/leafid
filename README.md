@@ -75,10 +75,20 @@ files hold only 7,201 distinct photos, and **190 photos are filed under two diff
 | `pinus_virginiana` + `prunus_virginiana` (all 45 pine field photos) | 45 |
 | `magnolia_stellata` + `magnolia_tripetala` | 32 |
 
-These four pairs were exactly the six most-confused pairs in v1, and 114 duplicated photos had copies on both
-sides of the train/test boundary. Split v2 (`python -m leafid.splits`) hashes every image, drops photos with
-conflicting labels, keeps one copy of same-species duplicates, and lists what it dropped in `splits/dropped.csv`.
+These four pairs were exactly the six most-confused pairs in v1. Exact copies within a species also crossed the
+train/test boundary: 114 field photos and 58 lab photos (saved under different file names, so the specimen
+grouping missed them). Split v2 (`python -m leafid.splits`) hashes every image, drops photos with conflicting
+labels, keeps one copy of same-species duplicates, and lists what it dropped in `splits/dropped.csv`.
 Every checkpoint records the split it was trained on, and `evaluate` refuses to score a model on a different one.
+
+| Split | Images | Dropped: conflicting labels | Dropped: duplicate copies |
+|---|---|---|---|
+| v1 | 30,866 | | |
+| v2 | 29,945 (lab 22,934 · field 7,011) | 531 field files | 213 lab + 177 field |
+
+v2 test set: 3,221 lab / 1,056 field images. Side effect: `pinus_virginiana`, `quercus_muehlenbergii`,
+`prunus_subhirtella` and `magnolia_tripetala` lose **all** their field photos (every one was a conflicting copy),
+so they are learned from lab photos only and have no field test score (`ulmus_procera` never had field photos).
 
 TODO: training curves, confusion matrix, most-confused species pairs, Grad-CAM comparisons.
 
