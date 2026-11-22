@@ -15,7 +15,7 @@ import torch
 from tqdm import tqdm
 
 from .config import reports_dir
-from .data import make_loader
+from .data import make_loader, split_version
 from .models import load_checkpoint
 
 
@@ -71,10 +71,15 @@ def main():
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model, name, classes = load_checkpoint(args.checkpoint, device)
+    if model.split_version != split_version():
+        # Its test images may have been training images under the old split: the numbers would be meaningless.
+        raise SystemExit(f"skipping {args.checkpoint.name}: trained on split "
+                         f"{model.split_version or 'v1 (unversioned)'}, splits.csv is now {split_version()}")
     out_dir = reports_dir(args.save_dir) / args.checkpoint.stem
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    metrics = {"checkpoint": str(args.checkpoint), "model": name, "split": args.split}
+    metrics = {"checkpoint": str(args.checkpoint), "model": name, "split": args.split,
+               "split_version": split_version()}
     for source in ("lab", "field"):
         loader = make_loader(args.split, (source,), batch_size=args.batch_size, num_workers=args.num_workers)
         labels, topk = predict_loader(model, loader, device)

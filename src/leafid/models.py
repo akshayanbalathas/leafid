@@ -176,4 +176,5 @@ def load_checkpoint(path: Path, device: str = "cpu") -> tuple[nn.Module, str, li
     ckpt = torch.load(path, map_location=device, weights_only=False)
     model = build_model(ckpt["model_name"], len(ckpt["classes"]))
     model.load_state_dict(ckpt["state_dict"])
+    model.split_version = ckpt.get("split_version")  # None for checkpoints from before splits were versioned
     return model.to(device).eval(), ckpt["model_name"], ckpt["classes"]

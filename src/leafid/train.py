@@ -32,7 +32,7 @@ from torch import nn
 from tqdm import tqdm
 
 from .config import SEED, checkpoint_dir, reports_dir
-from .data import image_root, load_classes, make_loader
+from .data import image_root, load_classes, make_loader, split_version
 from .evaluate import accuracy, predict_loader
 from .models import MODEL_NAMES, build_model, head_parameters, save_checkpoint, set_backbone_trainable
 
@@ -85,7 +85,8 @@ def main():
     best_path, last_path = ckpt_dir / f"{args.run}.pt", ckpt_dir / f"{args.run}_last.pt"
     history_path = report_dir / "history.csv"
     report_dir.mkdir(parents=True, exist_ok=True)
-    print(f"images from: {image_root()}\nsaving to:   {ckpt_dir}  and  {report_dir}")
+    split_v = split_version()
+    print(f"images from: {image_root()}\nsplit:       {split_v}\nsaving to:   {ckpt_dir}  and  {report_dir}")
 
     train_loader = make_loader("train", sources, train=True, augment=not args.no_augment,
                                batch_size=args.batch_size, num_workers=args.num_workers)
@@ -108,6 +109,10 @@ def main():
     if args.resume and last_path.exists():
         state = torch.load(last_path, map_location=device, weights_only=False)
         changed = [k for k in MUST_MATCH if state["args"].get(k) != vars(args)[k]]
+        if state.get("split_version") != split_v:
+            raise SystemExit(f"--resume refused: {last_path.name} was trained on split "
+                             f"{state.get('split_version', 'v1 (unversioned)')}, splits.csv is now {split_v}. "
+                             f"Delete or move the old checkpoint to start this run again.")
         if changed:
             raise SystemExit(f"--resume refused: {changed} differ from the saved run. "
                              f"Use the same command, or a new --run name.")
@@ -157,12 +162,13 @@ def main():
         score = val["field"]["top1"] or 0.0
         if score > best:
             best = score
-            save_checkpoint(best_path, model, args.model, classes, {"args": vars(args), "epoch": epoch, "val": val})
+            save_checkpoint(best_path, model, args.model, classes,
+                            {"args": vars(args), "epoch": epoch, "val": val, "split_version": split_v})
             print(f"  saved best -> {best_path.name} (val field top1 = {best:.3f})")
 
         atomic_save({"model": model.state_dict(), "optimizer": optimizer.state_dict(),
                      "scheduler": scheduler.state_dict(), "scaler": scaler.state_dict(),
-                     "epoch": epoch, "best": best, "args": vars(args)}, last_path)
+                     "epoch": epoch, "best": best, "args": vars(args), "split_version": split_v}, last_path)
 
     last_path.unlink(missing_ok=True)  # finished: the resumable state isn't needed any more (~300 MB)
     print(f"done. best val field top1 = {best:.3f}\n  model:   {best_path}\n  history: {history_path}")

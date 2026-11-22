@@ -72,6 +72,19 @@ def load_classes() -> list[str]:
     return (SPLITS_DIR / "classes.txt").read_text().split()
 
 
+@lru_cache(maxsize=None)
+def split_version() -> str:
+    """Short fingerprint of splits.csv (which image is in which split).
+
+    Stored in every checkpoint, so a model trained on one split is never resumed or
+    evaluated on another. Ignores line endings, so Windows and Colab agree.
+    """
+    import hashlib
+    df = pd.read_csv(SPLITS_DIR / "splits.csv")
+    rows = sorted(df["image_path"] + "," + df["split"])
+    return hashlib.md5("\n".join(rows).encode()).hexdigest()[:8]
+
+
 def load_split(split: str, sources=("lab", "field")) -> pd.DataFrame:
     df = pd.read_csv(SPLITS_DIR / "splits.csv")
     return df[(df["split"] == split) & (df["source"].isin(sources))].reset_index(drop=True)
