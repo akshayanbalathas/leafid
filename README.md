@@ -27,7 +27,7 @@ TODO (problem formulation, 15%)
 | Baseline CNN | 5 × (conv-BN-ReLU-pool) → GAP → FC | trained from scratch on LeafSnap | none |
 | Residual CNN | stem + 4 residual stages → GAP → FC | trained from scratch on LeafSnap | He et al., 2016 |
 | **ResNet-50 (main)** | 50-layer bottleneck ResNet, new 2048→185 head | ImageNet-pretrained, fine-tuned on LeafSnap | He et al., 2016; Deng et al., 2009 |
-| Leaf gate | CLIP ViT-B/32 zero-shot | pretrained (400M image-text pairs) | Radford et al., 2021 |
+| Leaf gate + zero-shot baseline | CLIP ViT-B/32 zero-shot | pretrained (400M image-text pairs) | Radford et al., 2021 |
 | Species card | Qwen2.5-1.5B-Instruct | pretrained, prompted only | Qwen Team, 2024 |
 | Explainability | Grad-CAM (no weights) | none | Selvaraju et al., 2017 |
 
@@ -45,7 +45,9 @@ pressed specimen never cross splits). Test accuracy is reported separately for l
 
 | Run | What it tests | Lab top-1 | Field top-1 | Field top-5 |
 |---|---|---|---|---|
-| CLIP zero-shot | no training at all | | | |
+| random guess | chance level (1 / 185) | 0.5% | 0.5% | 2.7% |
+| `clip_zeroshot` | CLIP ViT-B/32, no training (species names as prompts) | 1.9% | 4.0% | 11.3% |
+| `clip_zeroshot_L14` | CLIP ViT-L/14, no training | 5.6% | 6.0% | 23.6% |
 | `simple_cnn` | small CNN from scratch | 81.6% | 72.1% | 93.8% |
 | `enhanced_cnn` | deeper CNN from scratch | | | |
 | `res_cnn` | + residual connections | | | |
@@ -57,6 +59,11 @@ pressed specimen never cross splits). Test accuracy is reported separately for l
 All numbers are on the held-out **test** split of split v2 (3,221 lab / 1,056 field images, duplicates removed,
 see below), using each run's best epoch by field validation accuracy. Times are on a free Colab T4.
 
+- **CLIP zero-shot** (no training, `python -m leafid.zeroshot`): better than chance but far from usable. The
+  bigger ViT-L/14 roughly doubles top-5, yet still gets only 6% of field photos right. CLIP collapses onto a few
+  names (ViT-B/32 puts 43% of field photos into just 5 of 185 species) and its mistakes often stay in the right
+  genus (pine → pine, maple → maple, willow → willow): it knows roughly what a pine looks like, but not the
+  difference between 185 Latin names. That's the gap the fine-tuned model fills with 22k labelled photos.
 - `simple_cnn`: 30 epochs (~172 s each), best at epoch 29, still slowly improving.
 - `resnet50_full`: 15 epochs (3 frozen at ~175 s, 12 unfrozen at ~200 s), best at epoch 11. Unfreezing the backbone
   at epoch 4 lifts field validation accuracy from ~50% to ~85% in one epoch.
@@ -166,7 +173,7 @@ src/leafid/
   cache.py       one-time 256 px image cache
   data.py        image ↔ tensor, loaders    evaluate.py  lab/field top-1/top-5, confusions
   gradcam.py     Grad-CAM + overlay         explain.py   Grad-CAM figure of the most-confused pair
-  leaf_gate.py   CLIP zero-shot leaf check
+  leaf_gate.py   CLIP zero-shot leaf check  zeroshot.py  CLIP zero-shot species baseline
   species_card.py  LLM species card         predict.py   end-to-end Predictor
 ```
 

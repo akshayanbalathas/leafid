@@ -1,0 +1,29 @@
+{
+  "checkpoint": null,
+  "model": "clip_zeroshot (openai/clip-vit-base-patch32)",
+  "split": "test",
+  "split_version": "8e5ce9ca",
+  "templates": [
+    "a photo of a {} leaf.",
+    "a photo of a leaf from a {} tree.",
+    "a close-up photo of a {} leaf.",
+    "a pressed {} leaf on a white background."
+  ],
+  "lab": {
+    "n": 3221,
+    "top1": 0.019248680533995654,
+    "top5": 0.07792610990375659
+  },
+  "field": {
+    "n": 1056,
+    "top1": 0.03977272727272727,
+    "top5": 0.11268939393939394
+  },
+  "field_most_predicted": {
+    "stewartia_pseudocamellia": 97,
+    "halesia_tetraptera": 97,
+    "tilia_cordata": 94,
+    "asimina_triloba": 86,
+    "salix_babylonica": 85
+  }
+}
