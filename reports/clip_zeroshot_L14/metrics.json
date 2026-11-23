@@ -1,0 +1,29 @@
+{
+  "checkpoint": null,
+  "model": "clip_zeroshot (openai/clip-vit-large-patch14)",
+  "split": "test",
+  "split_version": "8e5ce9ca",
+  "templates": [
+    "a photo of a {} leaf.",
+    "a photo of a leaf from a {} tree.",
+    "a close-up photo of a {} leaf.",
+    "a pressed {} leaf on a white background."
+  ],
+  "lab": {
+    "n": 3221,
+    "top1": 0.05619372865569699,
+    "top5": 0.1601986960571251
+  },
+  "field": {
+    "n": 1056,
+    "top1": 0.05965909090909091,
+    "top5": 0.23579545454545456
+  },
+  "field_most_predicted": {
+    "ptelea_trifoliata": 89,
+    "salix_matsudana": 85,
+    "pinus_peucea": 82,
+    "quercus_shumardii": 73,
+    "halesia_tetraptera": 59
+  }
+}

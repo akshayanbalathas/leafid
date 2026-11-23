@@ -45,7 +45,9 @@ pressed specimen never cross splits). Test accuracy is reported separately for l
 
 | Run | What it tests | Lab top-1 | Field top-1 | Field top-5 |
 |---|---|---|---|---|
-| `clip_zeroshot` | CLIP ViT-B/32, no training (species names as prompts) | | | |
+| random guess | chance level (1 / 185) | 0.5% | 0.5% | 2.7% |
+| `clip_zeroshot` | CLIP ViT-B/32, no training (species names as prompts) | 1.9% | 4.0% | 11.3% |
+| `clip_zeroshot_L14` | CLIP ViT-L/14, no training | 5.6% | 6.0% | 23.6% |
 | `simple_cnn` | small CNN from scratch | 81.6% | 72.1% | 93.8% |
 | `enhanced_cnn` | deeper CNN from scratch | | | |
 | `res_cnn` | + residual connections | | | |
@@ -57,6 +59,11 @@ pressed specimen never cross splits). Test accuracy is reported separately for l
 All numbers are on the held-out **test** split of split v2 (3,221 lab / 1,056 field images, duplicates removed,
 see below), using each run's best epoch by field validation accuracy. Times are on a free Colab T4.
 
+- **CLIP zero-shot** (no training, `python -m leafid.zeroshot`): better than chance but far from usable. The
+  bigger ViT-L/14 roughly doubles top-5, yet still gets only 6% of field photos right. CLIP collapses onto a few
+  names (ViT-B/32 puts 43% of field photos into just 5 of 185 species) and its mistakes often stay in the right
+  genus (pine → pine, maple → maple, willow → willow): it knows roughly what a pine looks like, but not the
+  difference between 185 Latin names. That's the gap the fine-tuned model fills with 22k labelled photos.
 - `simple_cnn`: 30 epochs (~172 s each), best at epoch 29, still slowly improving.
 - `resnet50_full`: 15 epochs (3 frozen at ~175 s, 12 unfrozen at ~200 s), best at epoch 11. Unfreezing the backbone
   at epoch 4 lifts field validation accuracy from ~50% to ~85% in one epoch.
