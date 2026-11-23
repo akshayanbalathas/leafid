@@ -159,7 +159,8 @@ src/leafid/
   splits.py      build the fixed split      train.py     resumable training loop (two-stage fine-tune)
   cache.py       one-time 256 px image cache
   data.py        image ↔ tensor, loaders    evaluate.py  lab/field top-1/top-5, confusions
-  gradcam.py     Grad-CAM + overlay         leaf_gate.py CLIP zero-shot leaf check
+  gradcam.py     Grad-CAM + overlay         explain.py   Grad-CAM figure of the most-confused pair
+  leaf_gate.py   CLIP zero-shot leaf check
   species_card.py  LLM species card         predict.py   end-to-end Predictor
 ```
 
