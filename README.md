@@ -46,16 +46,25 @@ pressed specimen never cross splits). Test accuracy is reported separately for l
 | Run | What it tests | Lab top-1 | Field top-1 | Field top-5 |
 |---|---|---|---|---|
 | CLIP zero-shot | no training at all | | | |
-| `simple_cnn` | small CNN from scratch | | | |
+| `simple_cnn` | small CNN from scratch | 81.6% | 72.1% | 93.8% |
 | `enhanced_cnn` | deeper CNN from scratch | | | |
 | `res_cnn` | + residual connections | | | |
 | `resnet50_probe` | pretrained features, head only | | | |
-| `resnet50_full` | full two-stage fine-tune | | | |
+| `resnet50_full` | full two-stage fine-tune | **96.9%** | **97.1%** | **99.7%** |
 | `resnet50_labonly` | trained on lab only → domain shift | | | |
 | own Ontario photos | real-world check | | | |
 
-All numbers are on the held-out **test** split of split v2 (duplicates removed, see below), using each run's
-best epoch by field validation accuracy.
+All numbers are on the held-out **test** split of split v2 (3,221 lab / 1,056 field images, duplicates removed,
+see below), using each run's best epoch by field validation accuracy. Times are on a free Colab T4.
+
+- `simple_cnn`: 30 epochs (~172 s each), best at epoch 29, still slowly improving.
+- `resnet50_full`: 15 epochs (3 frozen at ~175 s, 12 unfrozen at ~200 s), best at epoch 11. Unfreezing the backbone
+  at epoch 4 lifts field validation accuracy from ~50% to ~85% in one epoch.
+- **Transfer learning wins by 25 points on field photos**, in half the epochs. The pretrained model also closes
+  the lab → field gap (lab 96.9% vs field 97.1%), while the scratch CNN loses 9.5 points on real photos. Caveat:
+  the four species that lost all their field photos (below) are absent from the field test set.
+- **Remaining ResNet-50 errors are botanically reasonable:** at most 2 test photos per pair, e.g. northern vs
+  southern catalpa, two serviceberries (`amelanchier`), two hickories (`carya`), two crabapples (`malus`).
 
 **Split v1 results (superseded).** Before we found the duplicates: `simple_cnn` 81.9% / 72.1% / 94.2%
 (30 epochs, ~185 s each on a T4); `resnet50_full` 97.6% / 93.1% / 99.7% (15 epochs, 3 frozen). Unfreezing the
