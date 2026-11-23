@@ -1,0 +1,16 @@
+{
+  "checkpoint": "/content/drive/MyDrive/leafid/checkpoints/simple_cnn.pt",
+  "model": "simple_cnn",
+  "split": "test",
+  "split_version": "8e5ce9ca",
+  "lab": {
+    "n": 3221,
+    "top1": 0.8158956845700093,
+    "top5": 0.9798199316982303
+  },
+  "field": {
+    "n": 1056,
+    "top1": 0.7206439393939394,
+    "top5": 0.9375
+  }
+}
