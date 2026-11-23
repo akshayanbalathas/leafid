@@ -65,6 +65,12 @@ see below), using each run's best epoch by field validation accuracy. Times are 
   the four species that lost all their field photos (below) are absent from the field test set.
 - **Remaining ResNet-50 errors are botanically reasonable:** at most 2 test photos per pair, e.g. northern vs
   southern catalpa, two serviceberries (`amelanchier`), two hickories (`carya`), two crabapples (`malus`).
+  For its most-confused pair (below, from `python -m leafid.explain --run resnet50_full`) the model gets 9 of 11
+  northern catalpa photos right, is unsure on the 2 it misses (39% and 58%), and its Grad-CAM attention sits on
+  the leaf blade and margin rather than the background. The two species' leaves are nearly identical; field
+  guides separate them by flowers and seed pods.
+
+![Grad-CAM of resnet50_full's most-confused pair](reports/resnet50_full/gradcam_top_confusion.png)
 
 **Split v1 results (superseded).** Before we found the duplicates: `simple_cnn` 81.9% / 72.1% / 94.2%
 (30 epochs, ~185 s each on a T4); `resnet50_full` 97.6% / 93.1% / 99.7% (15 epochs, 3 frozen). Unfreezing the
@@ -99,7 +105,7 @@ v2 test set: 3,221 lab / 1,056 field images. Side effect: `pinus_virginiana`, `q
 `prunus_subhirtella` and `magnolia_tripetala` lose **all** their field photos (every one was a conflicting copy),
 so they are learned from lab photos only and have no field test score (`ulmus_procera` never had field photos).
 
-TODO: training curves, confusion matrix, most-confused species pairs, Grad-CAM comparisons.
+TODO: training-curve and confusion-matrix figures.
 
 ## 4. Application pipeline
 
@@ -159,7 +165,8 @@ src/leafid/
   splits.py      build the fixed split      train.py     resumable training loop (two-stage fine-tune)
   cache.py       one-time 256 px image cache
   data.py        image ↔ tensor, loaders    evaluate.py  lab/field top-1/top-5, confusions
-  gradcam.py     Grad-CAM + overlay         leaf_gate.py CLIP zero-shot leaf check
+  gradcam.py     Grad-CAM + overlay         explain.py   Grad-CAM figure of the most-confused pair
+  leaf_gate.py   CLIP zero-shot leaf check
   species_card.py  LLM species card         predict.py   end-to-end Predictor
 ```
 
