@@ -27,7 +27,7 @@ TODO (problem formulation, 15%)
 | Baseline CNN | 5 × (conv-BN-ReLU-pool) → GAP → FC | trained from scratch on LeafSnap | none |
 | Residual CNN | stem + 4 residual stages → GAP → FC | trained from scratch on LeafSnap | He et al., 2016 |
 | **ResNet-50 (main)** | 50-layer bottleneck ResNet, new 2048→185 head | ImageNet-pretrained, fine-tuned on LeafSnap | He et al., 2016; Deng et al., 2009 |
-| Leaf gate | CLIP ViT-B/32 zero-shot | pretrained (400M image-text pairs) | Radford et al., 2021 |
+| Leaf gate + zero-shot baseline | CLIP ViT-B/32 zero-shot | pretrained (400M image-text pairs) | Radford et al., 2021 |
 | Species card | Qwen2.5-1.5B-Instruct | pretrained, prompted only | Qwen Team, 2024 |
 | Explainability | Grad-CAM (no weights) | none | Selvaraju et al., 2017 |
 
@@ -45,7 +45,7 @@ pressed specimen never cross splits). Test accuracy is reported separately for l
 
 | Run | What it tests | Lab top-1 | Field top-1 | Field top-5 |
 |---|---|---|---|---|
-| CLIP zero-shot | no training at all | | | |
+| `clip_zeroshot` | CLIP ViT-B/32, no training (species names as prompts) | | | |
 | `simple_cnn` | small CNN from scratch | 81.6% | 72.1% | 93.8% |
 | `enhanced_cnn` | deeper CNN from scratch | | | |
 | `res_cnn` | + residual connections | | | |
@@ -166,7 +166,7 @@ src/leafid/
   cache.py       one-time 256 px image cache
   data.py        image ↔ tensor, loaders    evaluate.py  lab/field top-1/top-5, confusions
   gradcam.py     Grad-CAM + overlay         explain.py   Grad-CAM figure of the most-confused pair
-  leaf_gate.py   CLIP zero-shot leaf check
+  leaf_gate.py   CLIP zero-shot leaf check  zeroshot.py  CLIP zero-shot species baseline
   species_card.py  LLM species card         predict.py   end-to-end Predictor
 ```
 
