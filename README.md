@@ -46,18 +46,49 @@ pressed specimen never cross splits). Test accuracy is reported separately for l
 | Run | What it tests | Lab top-1 | Field top-1 | Field top-5 |
 |---|---|---|---|---|
 | CLIP zero-shot | no training at all | | | |
-| `simple_cnn` | small CNN from scratch | 81.9% | 72.1% | 94.2% |
+| `simple_cnn` | small CNN from scratch | | | |
 | `enhanced_cnn` | deeper CNN from scratch | | | |
 | `res_cnn` | + residual connections | | | |
 | `resnet50_probe` | pretrained features, head only | | | |
-| `resnet50_full` | full two-stage fine-tune | **97.6%** | **93.1%** | **99.7%** |
+| `resnet50_full` | full two-stage fine-tune | | | |
 | `resnet50_labonly` | trained on lab only → domain shift | | | |
 | own Ontario photos | real-world check | | | |
 
-All numbers are on the held-out **test** split (3,254 lab / 1,163 field images), using each run's best epoch by
-field validation accuracy. `simple_cnn`: 30 epochs (~185 s each on a T4), best at epoch 28.
-`resnet50_full`: 15 epochs (3 frozen at ~174 s, 12 unfrozen at ~200 s), best at epoch 15. Unfreezing the backbone
-at epoch 4 lifts field validation accuracy from 49% to 83% in a single epoch.
+All numbers are on the held-out **test** split of split v2 (duplicates removed, see below), using each run's
+best epoch by field validation accuracy.
+
+**Split v1 results (superseded).** Before we found the duplicates: `simple_cnn` 81.9% / 72.1% / 94.2%
+(30 epochs, ~185 s each on a T4); `resnet50_full` 97.6% / 93.1% / 99.7% (15 epochs, 3 frozen). Unfreezing the
+backbone at epoch 4 lifted field validation accuracy from 49% to 83% in one epoch. Reports in `reports/v1/`.
+
+### Finding: duplicate and conflicting labels in LeafSnap
+
+`resnet50_full` predicted **every** `pinus_virginiana` (Virginia pine, needles) test photo as `prunus_virginiana`
+(chokecherry, broad leaves). Grad-CAM showed the model looking at the needles, not the background, and the
+training photos labelled chokecherry included pine needles. Hashing every file showed why: the 7,719 field
+files hold only 7,201 distinct photos, and **190 photos are filed under two different species**:
+
+| Identical photos filed under both | Photos |
+|---|---|
+| `prunus_sargentii` + `quercus_muehlenbergii` | 66 |
+| `prunus_subhirtella` + `prunus_virginiana` | 47 |
+| `pinus_virginiana` + `prunus_virginiana` (all 45 pine field photos) | 45 |
+| `magnolia_stellata` + `magnolia_tripetala` | 32 |
+
+These four pairs were exactly the six most-confused pairs in v1. Exact copies within a species also crossed the
+train/test boundary: 114 field photos and 58 lab photos (saved under different file names, so the specimen
+grouping missed them). Split v2 (`python -m leafid.splits`) hashes every image, drops photos with conflicting
+labels, keeps one copy of same-species duplicates, and lists what it dropped in `splits/dropped.csv`.
+Every checkpoint records the split it was trained on, and `evaluate` refuses to score a model on a different one.
+
+| Split | Images | Dropped: conflicting labels | Dropped: duplicate copies |
+|---|---|---|---|
+| v1 | 30,866 | | |
+| v2 | 29,945 (lab 22,934 · field 7,011) | 531 field files | 213 lab + 177 field |
+
+v2 test set: 3,221 lab / 1,056 field images. Side effect: `pinus_virginiana`, `quercus_muehlenbergii`,
+`prunus_subhirtella` and `magnolia_tripetala` lose **all** their field photos (every one was a conflicting copy),
+so they are learned from lab photos only and have no field test score (`ulmus_procera` never had field photos).
 
 TODO: training curves, confusion matrix, most-confused species pairs, Grad-CAM comparisons.
 
@@ -132,7 +163,7 @@ TODO
 **Workflow:** never push to `main` directly. Branch per task (`cnn-baseline`, `resnet-runs`, `app-gradcam`, …),
 open a pull request, and have one teammate glance at it before merging. Never commit `data/`, checkpoints, or keys
 (see `.gitignore`). `splits/splits.csv` is generated **once** in Colab and committed; never regenerate it, or
-results stop being comparable.
+results stop being comparable. (It was regenerated once, as v2, to remove duplicate photos; all runs use v2.)
 
 **Roles:** TODO (agree on these in the group chat).
 

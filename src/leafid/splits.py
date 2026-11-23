@@ -12,8 +12,15 @@ Splitting is stratified per (source, species) so every species appears in every
 split for both lab and field images where possible. Lab photos of the same pressed
 specimen (e.g. ny1025-09-1.jpg, ny1025-09-2.jpg) share a "group" and are kept in the
 same split to avoid train/test leakage.
+
+Duplicates (v2): LeafSnap contains byte-identical copies of the same photo, some filed
+under two different species (e.g. every pinus_virginiana field photo is also in
+prunus_virginiana). Photos filed under conflicting species are dropped (the true label is
+unknown); for same-species copies only the first is kept, so no photo can be in both
+train and test. Everything dropped is listed in splits/dropped.csv.
 """
 import argparse
+import hashlib
 import random
 import re
 from pathlib import Path
@@ -50,7 +57,24 @@ def _group_id(image_path: str, source: str) -> str:
     return re.sub(r"-\d+$", "", stem) if source == "lab" else stem
 
 
-def build_splits(search_dir: Path, val_frac: float, test_frac: float, seed: int) -> tuple[pd.DataFrame, list[str]]:
+def _file_md5(path: Path) -> str:
+    return hashlib.md5(path.read_bytes()).hexdigest()
+
+
+def drop_duplicates(df: pd.DataFrame, root: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Remove exact duplicate images. Returns (kept rows, dropped rows with a 'reason')."""
+    df = df.sort_values("image_path").reset_index(drop=True)
+    df["md5"] = [_file_md5(root / p) for p in df["image_path"]]
+    n_species = df.groupby("md5")["species"].transform("nunique")
+    conflict = n_species > 1                                   # same photo, different labels
+    repeat = ~conflict & df.duplicated("md5", keep="first")    # extra copies, same label
+    dropped = df[conflict | repeat].assign(
+        reason=["conflicting_species" if c else "duplicate_copy" for c in conflict[conflict | repeat]])
+    return df[~(conflict | repeat)].drop(columns="md5"), dropped
+
+
+def build_splits(search_dir: Path, val_frac: float, test_frac: float,
+                 seed: int) -> tuple[pd.DataFrame, list[str], pd.DataFrame]:
     root = find_dataset_root(search_dir)
     print(f"dataset root: {root}")
     df = _load_images(root)
@@ -62,6 +86,12 @@ def build_splits(search_dir: Path, val_frac: float, test_frac: float, seed: int)
     if missing:
         print(f"[warn] dropping {len(missing)} index rows with no file on disk, e.g. {missing[0]}")
         df = df[~df["image_path"].isin(set(missing))]
+
+    # Classes come from the full index, so dropping duplicates can never remove a species.
+    classes = sorted(df["species"].unique())
+    print(f"hashing {len(df)} images to find duplicates...")
+    df, dropped = drop_duplicates(df, root)
+    print(dropped.groupby(["reason", "source"]).size().rename("dropped").to_string())
 
     rng = random.Random(seed)
     assignment = {}
@@ -79,9 +109,9 @@ def build_splits(search_dir: Path, val_frac: float, test_frac: float, seed: int)
             assignment[(source, species, gid)] = split
     df["split"] = [assignment[k] for k in zip(df["source"], df["species"], df["group"])]
 
-    classes = sorted(df["species"].unique())
     df["label"] = df["species"].map({c: i for i, c in enumerate(classes)})
-    return df[["image_path", "species", "label", "source", "group", "split"]], classes
+    cols = ["image_path", "species", "label", "source", "group", "split"]
+    return df[cols], classes, dropped[["image_path", "species", "source", "md5", "reason"]]
 
 
 def main():
@@ -92,9 +122,10 @@ def main():
     ap.add_argument("--seed", type=int, default=SEED)
     args = ap.parse_args()
 
-    df, classes = build_splits(args.root, args.val, args.test, args.seed)
+    df, classes, dropped = build_splits(args.root, args.val, args.test, args.seed)
     SPLITS_DIR.mkdir(parents=True, exist_ok=True)
     df.to_csv(SPLITS_DIR / "splits.csv", index=False)
+    dropped.to_csv(SPLITS_DIR / "dropped.csv", index=False)
     (SPLITS_DIR / "classes.txt").write_text("\n".join(classes) + "\n")
 
     print(f"{len(df)} images, {len(classes)} species -> {SPLITS_DIR}")
