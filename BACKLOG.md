@@ -13,8 +13,8 @@ copy `MyDrive/leafid/reports/<run>/` to `reports/<run>/` in a PR, and add the ro
 - [x] `simple_cnn`: Akshayan
 - [x] `resnet50_full`: Akshayan
 - [x] `clip_zeroshot`, `clip_zeroshot_L14`: Akshayan
-- [x] `enhanced_cnn`: results in [`reports/enhanced_cnn/`](reports/enhanced_cnn/)
-- [x] `res_cnn`: results in [`reports/res_cnn/`](reports/res_cnn/)
+- [x] `enhanced_cnn`: Allan, results in [`reports/enhanced_cnn/`](reports/enhanced_cnn/)
+- [x] `res_cnn`: Allan, results in [`reports/res_cnn/`](reports/res_cnn/)
 - [ ] `resnet50_probe` (~30 min): ?
 - [ ] `resnet50_labonly` (~40 min): lab → field domain shift: ?
 - [ ] Own Ontario leaf photos through the app (last row of the results table; note species, confidence, right or

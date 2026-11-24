@@ -126,11 +126,21 @@ whole image + text model.
   (86.2% vs 72.1%) and by 1.8 points over `res_cnn`.
 - `res_cnn`: 30 epochs (~187 s each), best field validation accuracy at epoch 30. Field test top-1
   improves by 12.3 percentage points over `simple_cnn` (84.4% vs 72.1%).
+- All three scratch CNNs were still improving when training stopped (best epochs 29–30), so longer training would
+  probably add a few points. We kept 30 epochs for each so they all get the same training budget.
 - `resnet50_full`: 15 epochs (3 frozen at ~175 s, 12 unfrozen at ~200 s), best at epoch 11. Unfreezing the backbone
   at epoch 4 lifts field validation accuracy from ~50% to ~85% in one epoch.
 - **Transfer learning wins by 25 points over the baseline CNN on field photos**, in half the epochs. The pretrained model also closes
   the lab → field gap (lab 96.9% vs field 97.1%), while the baseline CNN loses 9.5 points on real photos. Caveat:
   the four species that lost all their field photos (below) are absent from the field test set.
+- **Pretraining, not size, explains most of the gap.** `res_cnn` has the same layout as ResNet-18 and half of
+  ResNet-50's parameters (11.3M vs 23.9M). Trained from scratch it reaches 84.4% on field photos, against 97.1%
+  for the fine-tuned ResNet-50. Growing the scratch CNNs from 1.0M to ~10M parameters gains 12–14 points;
+  starting from ImageNet weights adds another 11–13. Bigger scratch models also shrink the lab → field gap
+  (9.5 points for `simple_cnn`, 6.5–6.8 for the larger two) but don't close it. Residual connections don't help
+  at this depth: the plain `enhanced_cnn` slightly beats `res_cnn` (86.2% vs 84.4%), since skip connections pay off
+  in much deeper networks. A fully controlled test of pretraining would be `resnet50_scratch` (same architecture,
+  random weights), which is optional in `BACKLOG.md`.
 - **Remaining ResNet-50 errors are botanically reasonable:** at most 2 test photos per pair, e.g. northern vs
   southern catalpa, two serviceberries (`amelanchier`), two hickories (`carya`), two crabapples (`malus`).
   For its most-confused pair (below, from `python -m leafid.explain --run resnet50_full`) the model gets 9 of 11
