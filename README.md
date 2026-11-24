@@ -112,6 +112,8 @@ pressed specimen never cross splits). Test accuracy is reported separately for l
 
 All numbers are on the held-out **test** split of split v2 (3,221 lab / 1,056 field images, duplicates removed,
 see below), using each run's best epoch by field validation accuracy. Times are on a free Colab T4.
+Params: weights in the architecture with the 185-way head (`python -m leafid.models`); CLIP counts are the
+whole image + text model.
 
 - **CLIP zero-shot** (no training, `python -m leafid.zeroshot`): better than chance but far from usable. The
   bigger ViT-L/14 roughly doubles top-5, yet still gets only 6% of field photos right. CLIP collapses onto a few
