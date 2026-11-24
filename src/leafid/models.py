@@ -1,7 +1,8 @@
 """Model zoo for the experiments.
 
   simple_cnn        5 conv blocks trained from scratch (baseline)
-  res_cnn           small residual network trained from scratch
+  enhanced_cnn      deeper CNN (2 convs per block, 512 features) trained from scratch
+  res_cnn           small residual network trained from scratch (same layout as ResNet-18)
   resnet50          ImageNet-pretrained ResNet-50, new 185-way head (transfer learning)
   resnet50_scratch  same architecture, random init (isolates the effect of pretraining)
 """
@@ -137,6 +138,12 @@ def build_model(name: str, num_classes: int) -> nn.Module:
     raise ValueError(f"unknown model {name!r}; choose from {MODEL_NAMES}")
 
 
+def count_parameters(name: str, num_classes: int = 185) -> int:
+    """Number of weights in an architecture (built on CPU, no pretrained download needed)."""
+    arch = "resnet50_scratch" if name == "resnet50" else name  # same architecture, skips the 100 MB download
+    return sum(p.numel() for p in build_model(arch, num_classes).parameters())
+
+
 HEAD_NAMES = ("fc", "head", "classifier")  # ResNet-50, our scratch CNNs, EnhancedCNN
 
 
@@ -178,3 +185,9 @@ def load_checkpoint(path: Path, device: str = "cpu") -> tuple[nn.Module, str, li
     model.load_state_dict(ckpt["state_dict"])
     model.split_version = ckpt.get("split_version")  # None for checkpoints from before splits were versioned
     return model.to(device).eval(), ckpt["model_name"], ckpt["classes"]
+
+
+if __name__ == "__main__":  # python -m leafid.models: parameter count of every architecture
+    for name in MODEL_NAMES:
+        n = count_parameters(name)
+        print(f"{name:18s} {n:>12,d} parameters  ({n / 1e6:.1f}M)")
