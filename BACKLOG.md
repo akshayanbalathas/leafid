@@ -3,9 +3,10 @@
 Everything still open, by area. Tick items off in the PR that finishes them. Owner `?` = unclaimed: put your name
 on it in the group chat and in this file.
 
-**Dates:** feature freeze **Sun Nov 29** · internal deadline **Thu Dec 3** · submit first week of December.
+**Dates:** exam **Fri Nov 27** (light work until then) · feature freeze **Mon Nov 30** · internal deadline **Thu Dec 3** · submit
+first week of December.
 
-## Experiments (before Nov 29)
+## Experiments (before Nov 30)
 
 All runs use split v2 (fingerprint `8e5ce9ca`): run notebook sections 1–3 fresh on `main` first. To submit a run,
 copy `MyDrive/leafid/reports/<run>/` to `reports/<run>/` in a PR, and add the row to the README results table.
@@ -38,7 +39,7 @@ copy `MyDrive/leafid/reports/<run>/` to `reports/<run>/` in a PR, and add the ro
 - [ ] Test the edge cases on camera for the video: a non-leaf photo (CLIP gate should refuse), a blurry or
       ambiguous leaf (low-confidence path shows guesses instead of a card)
 
-## README / write-up (Nov 30 – Dec 3)
+## README / write-up (Dec 1 – 3)
 
 - [x] Section 1, problem formulation (15% of the grade): drafted, needs a team read-through
 - [ ] Screenshots of the app (section 7)
@@ -48,7 +49,7 @@ copy `MyDrive/leafid/reports/<run>/` to `reports/<run>/` in a PR, and add the ro
 - [x] Describe how each model's weights were obtained, incl. Qwen2.5's training data (README section 2)
 - [ ] Project ID, team names, roles, video link, slides link at the top
 
-## Slides and video (Nov 30 – Dec 3)
+## Slides and video (Dec 1 – 3)
 
 - [ ] Slides (PDF). Storyline: chance → CLIP zero-shot (4–6%) → scratch CNN (72%) → fine-tuned ResNet-50
       (97%); the duplicate-label finding (Grad-CAM → hashing → split v2); remaining errors are look-alikes
