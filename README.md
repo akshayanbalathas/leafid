@@ -97,21 +97,23 @@ ResNet-50 uses two-stage fine-tuning: backbone frozen for the first epochs (head
 All runs share one fixed split (`splits/splits.csv`, stratified per species and source; photos of the same
 pressed specimen never cross splits). Test accuracy is reported separately for lab and field images.
 
-| Run | What it tests | Lab top-1 | Field top-1 | Field top-5 |
-|---|---|---|---|---|
-| random guess | chance level (1 / 185) | 0.5% | 0.5% | 2.7% |
-| `clip_zeroshot` | CLIP ViT-B/32, no training (species names as prompts) | 1.9% | 4.0% | 11.3% |
-| `clip_zeroshot_L14` | CLIP ViT-L/14, no training | 5.6% | 6.0% | 23.6% |
-| `simple_cnn` | small CNN from scratch | 81.6% | 72.1% | 93.8% |
-| `enhanced_cnn` | deeper CNN from scratch | | | |
-| `res_cnn` | + residual connections | | | |
-| `resnet50_probe` | pretrained features, head only | | | |
-| `resnet50_full` | full two-stage fine-tune | **96.9%** | **97.1%** | **99.7%** |
-| `resnet50_labonly` | trained on lab only → domain shift | | | |
-| own Ontario photos | real-world check | | | |
+| Run | What it tests | Params | Lab top-1 | Field top-1 | Field top-5 |
+|---|---|---|---|---|---|
+| random guess | chance level (1 / 185) | none | 0.5% | 0.5% | 2.7% |
+| `clip_zeroshot` | CLIP ViT-B/32, no training (species names as prompts) | 151M | 1.9% | 4.0% | 11.3% |
+| `clip_zeroshot_L14` | CLIP ViT-L/14, no training | 428M | 5.6% | 6.0% | 23.6% |
+| `simple_cnn` | small CNN from scratch | 1.0M | 81.6% | 72.1% | 93.8% |
+| `enhanced_cnn` | deeper CNN from scratch | 9.5M | | | |
+| `res_cnn` | + residual connections (ResNet-18 layout) | 11.3M | | | |
+| `resnet50_probe` | pretrained features, head only | 23.9M (0.4M trained) | | | |
+| `resnet50_full` | full two-stage fine-tune | 23.9M | **96.9%** | **97.1%** | **99.7%** |
+| `resnet50_labonly` | trained on lab only → domain shift | 23.9M | | | |
+| own Ontario photos | real-world check | | | | |
 
 All numbers are on the held-out **test** split of split v2 (3,221 lab / 1,056 field images, duplicates removed,
 see below), using each run's best epoch by field validation accuracy. Times are on a free Colab T4.
+Params: weights in the architecture with the 185-way head (`python -m leafid.models`); CLIP counts are the
+whole image + text model.
 
 - **CLIP zero-shot** (no training, `python -m leafid.zeroshot`): better than chance but far from usable. The
   bigger ViT-L/14 roughly doubles top-5, yet still gets only 6% of field photos right. CLIP collapses onto a few
