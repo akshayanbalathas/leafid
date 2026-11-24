@@ -104,7 +104,7 @@ pressed specimen never cross splits). Test accuracy is reported separately for l
 | `clip_zeroshot_L14` | CLIP ViT-L/14, no training | 5.6% | 6.0% | 23.6% |
 | `simple_cnn` | small CNN from scratch | 81.6% | 72.1% | 93.8% |
 | `enhanced_cnn` | deeper CNN from scratch | | | |
-| `res_cnn` | + residual connections | | | |
+| `res_cnn` | + residual connections | 91.2% | 84.4% | 98.0% |
 | `resnet50_probe` | pretrained features, head only | | | |
 | `resnet50_full` | full two-stage fine-tune | **96.9%** | **97.1%** | **99.7%** |
 | `resnet50_labonly` | trained on lab only → domain shift | | | |
@@ -119,10 +119,12 @@ see below), using each run's best epoch by field validation accuracy. Times are 
   genus (pine → pine, maple → maple, willow → willow): it knows roughly what a pine looks like, but not the
   difference between 185 Latin names. That's the gap the fine-tuned model fills with 22k labelled photos.
 - `simple_cnn`: 30 epochs (~172 s each), best at epoch 29, still slowly improving.
+- `res_cnn`: 30 epochs (~187 s each), best field validation accuracy at epoch 30. Field test top-1
+  improves by 12.3 percentage points over `simple_cnn` (84.4% vs 72.1%).
 - `resnet50_full`: 15 epochs (3 frozen at ~175 s, 12 unfrozen at ~200 s), best at epoch 11. Unfreezing the backbone
   at epoch 4 lifts field validation accuracy from ~50% to ~85% in one epoch.
-- **Transfer learning wins by 25 points on field photos**, in half the epochs. The pretrained model also closes
-  the lab → field gap (lab 96.9% vs field 97.1%), while the scratch CNN loses 9.5 points on real photos. Caveat:
+- **Transfer learning wins by 25 points over the baseline CNN on field photos**, in half the epochs. The pretrained model also closes
+  the lab → field gap (lab 96.9% vs field 97.1%), while the baseline CNN loses 9.5 points on real photos. Caveat:
   the four species that lost all their field photos (below) are absent from the field test set.
 - **Remaining ResNet-50 errors are botanically reasonable:** at most 2 test photos per pair, e.g. northern vs
   southern catalpa, two serviceberries (`amelanchier`), two hickories (`carya`), two crabapples (`malus`).

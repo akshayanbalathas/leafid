@@ -1,0 +1,16 @@
+{
+  "checkpoint": "/content/drive/MyDrive/leafid/checkpoints/res_cnn.pt",
+  "model": "res_cnn",
+  "split": "test",
+  "split_version": "8e5ce9ca",
+  "lab": {
+    "n": 3221,
+    "top1": 0.9124495498292455,
+    "top5": 0.996274448928904
+  },
+  "field": {
+    "n": 1056,
+    "top1": 0.84375,
+    "top5": 0.9801136363636364
+  }
+}
