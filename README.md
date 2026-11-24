@@ -13,26 +13,80 @@ where the model looked, and writes a species card with look-alikes and Ontario n
 
 ## 1. The problem
 
-TODO (problem formulation, 15%)
-- Why it's hard for traditional CV: hand-crafted shape/contour features (as in the original LeafSnap system)
-  need a clean, flat leaf on a white background; they break on cluttered backgrounds, lighting, folded leaves,
-  and look-alike species (e.g. sugar maple vs. Norway maple).
-- The neural approach: a CNN learns texture, vein and margin features end to end; transfer learning from
-  ImageNet makes this possible with ~30k images.
+**Task.** Given a phone photo of a single leaf, name the tree species (one of 185 species of northeastern North
+America), show which part of the leaf the decision was based on, and say whether that tree is native, non-native
+or invasive in Ontario.
+*Input:* an RGB photo. *Output:* the top-3 species with probabilities, a Grad-CAM heatmap and a species card.
+
+**Why it matters.** Invasive trees such as Norway maple, tree-of-heaven and Amur maple crowd out native forest
+in southern Ontario, and identifying a tree is the first step before reporting or removing it. Non-experts mix
+up look-alikes: Norway maple is easily taken for the native sugar maple.
+
+**Why traditional computer vision falls short.** The original LeafSnap app (Kumar et al., 2012) segments the leaf
+from a white background and compares hand-crafted histograms of the outline's curvature. That needs a flat,
+complete leaf on a clean background, and it uses shape only. It ignores the veins, margin teeth and texture that
+botanists use, and it breaks with shadows, colour casts, blur and folded or damaged leaves. Species whose
+outlines nearly match, such as the two catalpas or two hickories, can't be separated by shape alone.
+
+**Why a neural network, and why transfer learning.** A CNN learns margin, vein and texture features directly
+from pixels. But we have only ~21k training images for 185 classes (~116 per species, and only ~26 *field*
+photos per species), which is too few to learn good features from scratch. Our from-scratch CNN reaches 72% on
+field photos. Starting from ImageNet features and fine-tuning reaches **97%** (section 3).
+
+**Why not an off-the-shelf model.** A general vision-language model doesn't solve it either: CLIP zero-shot,
+prompted with the 185 species names, gets only 4–6% of field photos right. The task needs supervised
+fine-tuning on labelled leaves, which is what this project does.
+
+**What makes the data hard (each measured in section 3):**
+- **Two domains.** *Lab* images are clean scans of pressed leaves. *Field* images are phone photos of picked
+  leaves on paper, with uneven lighting, colour casts and blur. The scratch CNN loses 9.5 points going from lab
+  to field.
+- **Fine-grained classes.** Many species pairs differ only in small leaf details.
+- **Label noise.** We found 190 photos filed under two different species. Grad-CAM exposed the problem and file
+  hashing confirmed it, and split v2 removes them.
+- **Imbalance.** Some species have only 10 field photos, and four have none left after cleaning.
+
+**How success is measured.** Top-1 and top-5 accuracy on held-out *field* photos, since those are what the app
+sees, reported separately from lab photos. Models are selected on field validation accuracy, never on test.
+The app must also behave safely: it refuses photos that aren't leaves (CLIP gate), and it shows guesses instead
+of a confident card when the top probability is under 30%.
 
 ## 2. Neural network components
 
 | Component | Architecture | Weights | Citation |
 |---|---|---|---|
 | Baseline CNN | 5 × (conv-BN-ReLU-pool) → GAP → FC | trained from scratch on LeafSnap | none |
+| Enhanced CNN | 5 × (2 × conv-BN-ReLU, pool), widths 64–512 → GAP → dropout → FC | trained from scratch on LeafSnap | none |
 | Residual CNN | stem + 4 residual stages → GAP → FC | trained from scratch on LeafSnap | He et al., 2016 |
 | **ResNet-50 (main)** | 50-layer bottleneck ResNet, new 2048→185 head | ImageNet-pretrained, fine-tuned on LeafSnap | He et al., 2016; Deng et al., 2009 |
 | Leaf gate + zero-shot baseline | CLIP ViT-B/32 zero-shot | pretrained (400M image-text pairs) | Radford et al., 2021 |
 | Species card | Qwen2.5-1.5B-Instruct | pretrained, prompted only | Qwen Team, 2024 |
 | Explainability | Grad-CAM (no weights) | none | Selvaraju et al., 2017 |
 
-**Dataset:** LeafSnap: 185 tree species of the northeastern US, ~23k *lab* images (pressed leaves) and ~7.7k
-*field* images (phone photos outdoors). Kumar et al., ECCV 2012. See [`data/README.md`](data/README.md).
+**Dataset:** LeafSnap: 185 tree species of the northeastern US, ~23k *lab* images (scans of pressed leaves) and
+~7.7k *field* images (phone photos of picked leaves on paper). Kumar et al., ECCV 2012. After removing duplicates
+(split v2): 29,945 images. See [`data/README.md`](data/README.md).
+
+### How each model's weights were obtained
+
+- **Scratch CNNs** (`simple_cnn`, `enhanced_cnn`, `res_cnn`): PyTorch's default random initialization, then
+  trained by us on the LeafSnap training split only (30 epochs, AdamW, lr 1e-3).
+- **ResNet-50:** torchvision's `ResNet50_Weights.IMAGENET1K_V2`, trained by the PyTorch team on ImageNet-1k
+  (1.28M photos, 1,000 everyday object classes; 80.9% ImageNet top-1), downloaded automatically. We replace its
+  1000-way output layer with a new, randomly initialized 2048 → 185 layer. Fine-tuning has two stages:
+  1. 3 epochs training only the new layer, with the backbone frozen;
+  2. 12 epochs training everything, with the backbone at a 10× smaller learning rate (1e-4 vs 1e-3), so the
+     ImageNet features are adjusted rather than overwritten.
+- **CLIP ViT-B/32** (leaf gate and zero-shot baseline; ViT-L/14 in the baseline only): OpenAI's weights
+  (`openai/clip-vit-base-patch32` on Hugging Face), trained contrastively to match ~400M image–caption pairs
+  collected from the internet. Used as-is, with no fine-tuning: we only write the text prompts.
+- **Qwen2.5-1.5B-Instruct:** `Qwen/Qwen2.5-1.5B-Instruct` on Hugging Face (Apache 2.0). It was pretrained by
+  Alibaba's Qwen team on up to 18 trillion tokens of multilingual web text, code and maths. It was then
+  instruction-tuned on over a million supervised examples, followed by reinforcement learning from preference
+  feedback (Qwen Team, 2024). We don't fine-tune it: it is prompted with facts from `assets/species_info.csv` and
+  told not to contradict them, with greedy decoding so the same input gives the same card.
+- **Grad-CAM:** no weights of its own. It reuses the classifier's gradients and activations at the last
+  convolutional stage.
 
 **Training:** cross-entropy (label smoothing 0.1), AdamW, cosine LR schedule, mixed precision.
 ResNet-50 uses two-stage fine-tuning: backbone frozen for the first epochs (head only), then unfrozen with a
