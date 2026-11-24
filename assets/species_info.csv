@@ -2,7 +2,7 @@ species,common_name,ontario_status,notes,verified,to_check
 abies_concolor,White fir,non-native,Flat blue-green needles 4-7 cm long that curve upward; native to western North America.,no,
 abies_nordmanniana,Nordmann fir,non-native,"Glossy dark green flat needles with two white bands underneath and a notched tip; from the Caucasus, grown as a Christmas tree.",no,
 acer_campestre,Hedge maple,non-native,Small leaf with 3-5 rounded lobes and smooth edges; milky sap in the leaf stalk. European ornamental.,no,
-acer_ginnala,Amur maple,invasive,Small three-lobed leaf with a long middle lobe and double-toothed edges; turns bright red in fall. Asian ornamental that spreads into natural areas.,no,confirm invasive (OIPC list?)
+acer_ginnala,Amur maple,invasive,Small three-lobed leaf with a long middle lobe and double-toothed edges; turns bright red in fall. Asian ornamental that spreads into natural areas.,first-pass,Invasive on Thames River CA and Credit Valley CA invasive tree lists
 acer_griseum,Paperbark maple,non-native,Compound leaf with 3 leaflets; known for peeling cinnamon-coloured bark. Chinese ornamental.,no,
 acer_negundo,Manitoba maple (box elder),native,Compound leaf with 3-5 irregularly toothed leaflets; the only Ontario maple with compound leaves.,no,
 acer_palmatum,Japanese maple,non-native,Small leaf deeply cut into 5-9 pointed lobes like an open hand. Japanese ornamental.,no,
@@ -19,44 +19,44 @@ aesculus_pavi,Red buckeye,non-native,Palmately compound leaf with 5 glossy leafl
 ailanthus_altissima,Tree-of-heaven,invasive,"Very long compound leaf with 11-25 leaflets, each with 1-2 glandular teeth near the base; crushed leaves smell rank.",no,
 albizia_julibrissin,Silk tree (mimosa),non-native,"Feathery twice-compound leaf with tiny leaflets; pink pom-pom flowers. Asian ornamental, rarely hardy in Ontario.",no,
 amelanchier_arborea,Downy serviceberry,native,Oval leaf with fine teeth along most of the edge; young leaves are fuzzy underneath.,no,
-amelanchier_canadensis,Canadian serviceberry,native,Oblong leaf with fine teeth; hairless when mature. Hard to tell from other serviceberries by the leaf alone.,no,confirm native range in Ontario
+amelanchier_canadensis,Canadian serviceberry,native,Oblong leaf with fine teeth; hairless when mature. Hard to tell from other serviceberries by the leaf alone.,first-pass,Native to Ontario per secondary sources only (no Ontario gov page found)
 amelanchier_laevis,Allegheny serviceberry,native,Oval leaf with fine sharp teeth; young leaves are bronze-purple and hairless.,no,
 asimina_triloba,Pawpaw,native,"Large drooping leaf, widest past the middle, smooth edges; smells like green pepper when crushed. Carolinian zone tree.",no,
 betula_alleghaniensis,Yellow birch,native,Oval double-toothed leaf; twigs smell of wintergreen; shiny golden peeling bark. A major hardwood of Ontario's mixed forests.,no,
 betula_jacqemontii,Himalayan birch,non-native,Oval double-toothed leaf; bright white bark. Himalayan ornamental.,no,
-betula_lenta,Cherry birch (sweet birch),native,Oval leaf with fine sharp teeth; twigs smell strongly of wintergreen; dark cherry-like bark. Very rare in Ontario (Niagara region); a species at risk.,no,confirm at-risk status
+betula_lenta,Cherry birch (sweet birch),native,Oval leaf with fine sharp teeth; twigs smell strongly of wintergreen; dark cherry-like bark. Endangered in Ontario; Canada's only known wild population is in the Niagara Region.,first-pass,ontario.ca species-at-risk page: Endangered
 betula_nigra,River birch,non-native,Diamond-shaped double-toothed leaf with a wedge-shaped base; shaggy salmon-coloured peeling bark. Native to the eastern US; planted in Ontario.,no,
-betula_populifolia,Grey birch,native,Triangular leaf with a long tapering tip and double teeth; flutters like a poplar leaf. Eastern Ontario.,no,confirm native range in Ontario
+betula_populifolia,Grey birch,native,Triangular leaf with a long tapering tip and double teeth; flutters like a poplar leaf. Native only in easternmost Ontario but widely planted in the south.,first-pass,"ontario.ca ""What gray birch looks like"""
 broussonettia_papyrifera,Paper mulberry,non-native,"Fuzzy, sandpapery leaf that can be unlobed or deeply lobed on the same tree. East Asian.",no,
 carpinus_betulus,European hornbeam,non-native,Oval double-toothed leaf with deeply impressed parallel veins. European ornamental.,no,
 carpinus_caroliniana,Blue-beech (American hornbeam),native,Oval double-toothed leaf with straight parallel veins; smooth grey muscular-looking trunk.,no,
 carya_cordiformis,Bitternut hickory,native,Compound leaf with 7-11 slender leaflets; sulphur-yellow buds.,no,
-carya_glabra,Pignut hickory,native,Compound leaf with usually 5 hairless leaflets. Uncommon in southern Ontario.,no,confirm native
+carya_glabra,Pignut hickory,native,Compound leaf with usually 5 hairless leaflets. Rare in Ontario: scattered pockets near Lakes Erie and Ontario.,first-pass,ontario.ca pignut hickory page; U of Guelph Arboretum
 carya_ovata,Shagbark hickory,native,"Compound leaf with usually 5 large leaflets, the top three biggest; bark peels in long shaggy strips.",no,
-carya_tomentosa,Mockernut hickory,native,"Compound leaf with 7-9 leaflets, fuzzy underneath and fragrant when crushed. Rare in Ontario (Niagara region).",no,confirm native / rarity
-castanea_dentata,American chestnut,native,"Long narrow leaf with sharp, hooked, bristle-tipped teeth. Endangered in Ontario after chestnut blight.",no,confirm at-risk status
+carya_tomentosa,Mockernut hickory,native,"Compound leaf with 7-9 leaflets, fuzzy underneath and fragrant when crushed. Native to southern Ontario.",first-pass,USDA FS silvics (range to southern Ontario); rarity not confirmed so removed
+castanea_dentata,American chestnut,native,"Long narrow leaf with sharp, hooked, bristle-tipped teeth. Endangered in Ontario after chestnut blight.",first-pass,ontario.ca species-at-risk page: Endangered
 catalpa_bignonioides,Southern catalpa,non-native,"Large heart-shaped leaf in whorls of three, often with a short tip; smells unpleasant when crushed. Native to the southeastern US.",no,
 catalpa_speciosa,Northern catalpa,non-native,Large heart-shaped leaf in whorls of three with a longer tapering tip; almost identical to southern catalpa. Native to the central US; planted in Ontario.,no,
 cedrus_atlantica,Atlas cedar,non-native,Short blue-green needles in dense clusters on spur shoots. From North Africa.,no,
 cedrus_deodara,Deodar cedar,non-native,Longer soft needles (up to 5 cm) in clusters on spur shoots; drooping branch tips. Himalayan.,no,
 cedrus_libani,Cedar of Lebanon,non-native,Stiff dark green needles in clusters on spur shoots; flat-topped tiered branches.,no,
 celtis_occidentalis,Common hackberry,native,"Oval leaf with an uneven base, toothed edge and long tapering tip; warty bark.",no,
-celtis_tenuifolia,Dwarf hackberry,native,Small hackberry leaf with few or no teeth. Rare in Ontario; a species at risk.,no,confirm at-risk status
+celtis_tenuifolia,Dwarf hackberry,native,Small hackberry leaf with few or no teeth. Threatened in Ontario.,first-pass,ontario.ca species-at-risk page: Threatened
 cercidiphyllum_japonicum,Katsura tree,non-native,Small round heart-shaped leaf with rounded teeth; fallen leaves smell like burnt sugar. Japanese ornamental.,no,
-cercis_canadensis,Eastern redbud,native,Smooth-edged heart-shaped leaf; pink flowers on bare branches in spring. Historically native on Pelee Island but considered gone from the wild; widely planted.,no,confirm extirpated wording
+cercis_canadensis,Eastern redbud,native,Smooth-edged heart-shaped leaf; pink flowers on bare branches in spring. Known wild in Ontario only from an 1892 record on Pelee Island and considered extirpated; planted trees now spread into natural areas.,first-pass,Canadian Forest Service factsheet (probably native on Pelee Island); RBG lists it as extirpated
 chamaecyparis_pisifera,Sawara cypress,non-native,Flat sprays of scale-like leaves with white X-shaped marks underneath. Japanese ornamental.,no,
 chamaecyparis_thyoides,Atlantic white cedar,non-native,Fine irregular sprays of small blue-green scales. Native to US Atlantic coast swamps.,no,
 chionanthus_retusus,Chinese fringetree,non-native,"Glossy oval leaf with smooth edges, opposite; white fringe-like flowers. East Asian.",no,
 chionanthus_virginicus,White fringetree,non-native,Oval smooth-edged opposite leaf; fringe-like white flowers. Native to the southeastern US.,no,
 cladrastis_lutea,Yellowwood,non-native,Compound leaf with 7-11 alternate leaflets; smooth grey bark. Native to the southeastern US.,no,
-cornus_florida,Flowering dogwood,native,Oval opposite leaf whose veins curve to follow the edge; white flower bracts. Endangered in Ontario (Carolinian zone).,no,confirm at-risk status
+cornus_florida,Flowering dogwood,native,Oval opposite leaf whose veins curve to follow the edge; white flower bracts. Endangered in Ontario (Carolinian zone).,first-pass,ontario.ca species-at-risk page: Endangered
 cornus_kousa,Kousa dogwood,non-native,Opposite oval leaf with wavy edges and curving veins; pointed white bracts. East Asian ornamental.,no,
 cornus_mas,Cornelian cherry,non-native,Small opposite oval leaf with curving veins; yellow flowers very early in spring. European.,no,
 corylus_colurna,Turkish hazel,non-native,Broad heart-shaped leaf with coarse double teeth. Street tree from southeastern Europe.,no,
 crataegus_crus-galli,Cockspur hawthorn,native,"Glossy leaf widest near the tip, toothed only on the outer half; long sharp thorns.",no,
 crataegus_laevigata,English hawthorn,non-native,Small leaf with 3-5 shallow rounded lobes; thorny. European ornamental.,no,
 crataegus_phaenopyrum,Washington hawthorn,non-native,"Small triangular leaf with 3-5 sharp lobes, maple-like; slender thorns. Native to the southeastern US.",no,
-crataegus_pruinosa,Frosted hawthorn,native,Oval toothed leaf with shallow lobes; fruit has a waxy bloom.,no,confirm native
+crataegus_pruinosa,Frosted hawthorn,native,Oval toothed leaf with shallow lobes; fruit has a waxy bloom.,first-pass,GRIN taxonomy lists southern Ontario as native range; Niagara collection record
 crataegus_viridis,Green hawthorn,non-native,Glossy oval leaf with fine teeth and shallow lobes near the tip. Native to the southeastern US.,no,
 cryptomeria_japonica,Japanese cedar,non-native,Awl-shaped needles that curve inward around the twig. Japanese.,no,
 diospyros_virginiana,Common persimmon,non-native,Glossy oval leaf with smooth edges; blocky alligator-skin bark. Native to the southeastern US.,no,
@@ -65,14 +65,14 @@ evodia_daniellii,Korean evodia (bee-bee tree),non-native,Opposite compound leaf 
 fagus_grandifolia,American beech,native,Oval leaf with one straight vein ending in each tooth; smooth grey bark. Affected by beech bark disease and beech leaf disease.,no,
 ficus_carica,Common fig,non-native,Large rough leaf with 3-5 deep lobes. Mediterranean; not hardy outdoors in most of Ontario.,no,
 fraxinus_americana,White ash,native,Opposite compound leaf with 5-9 leaflets; whitish underside. Devastated by the emerald ash borer.,no,
-fraxinus_nigra,Black ash,native,Opposite compound leaf with 7-11 stalkless leaflets. Assessed as at risk in Ontario because of the emerald ash borer.,no,confirm at-risk status
+fraxinus_nigra,Black ash,native,Opposite compound leaf with 7-11 stalkless leaflets. Endangered in Ontario because of the emerald ash borer.,first-pass,ontario.ca species-at-risk page: Endangered (protections limited to EAB-affected areas since 2024)
 fraxinus_pennsylvanica,Green ash (red ash),native,"Opposite compound leaf with 5-9 leaflets, green on both sides. Devastated by the emerald ash borer.",no,
 ginkgo_biloba,Ginkgo,non-native,"Fan-shaped leaf with fine radiating veins, often notched in the middle. Chinese living fossil, common street tree.",no,
 gleditsia_triacanthos,Honey locust,native,Feathery compound or twice-compound leaf with small leaflets; wild trees have large branched thorns. Native to southwestern Ontario; thornless cultivars are common street trees.,no,
-gymnocladus_dioicus,Kentucky coffee-tree,native,Very large twice-compound leaf with oval leaflets. Threatened in Ontario.,no,confirm at-risk status
+gymnocladus_dioicus,Kentucky coffee-tree,native,Very large twice-compound leaf with oval leaflets. Threatened in Ontario; native only in the southwest.,first-pass,ontario.ca species-at-risk page: Threatened
 halesia_tetraptera,Carolina silverbell,non-native,Oval leaf with fine teeth and a pointed tip; white bell-shaped flowers. Native to the southeastern US.,no,
 ilex_opaca,American holly,non-native,Stiff evergreen leaf with spiny teeth. Native to the eastern US.,no,
-juglans_cinerea,Butternut,native,"Compound leaf with 11-17 leaflets, a terminal leaflet usually present; sticky hairs. Endangered in Ontario due to butternut canker.",no,confirm at-risk status
+juglans_cinerea,Butternut,native,"Compound leaf with 11-17 leaflets, a terminal leaflet usually present; sticky hairs. Endangered in Ontario due to butternut canker.",first-pass,ontario.ca species-at-risk page: Endangered
 juglans_nigra,Black walnut,native,"Compound leaf with 15-23 leaflets, the terminal one often missing. Southern Ontario.",no,
 juniperus_virginiana,Eastern red cedar,native,Scale-like leaves on older shoots and sharp needles on young ones; blue berry-like cones.,no,
 koelreuteria_paniculata,Goldenrain tree,non-native,"Compound leaf with coarsely toothed, irregularly lobed leaflets; papery lantern-shaped pods. East Asian.",no,
@@ -80,7 +80,7 @@ larix_decidua,European larch,non-native,"Soft needles in clusters on spur shoots
 liquidambar_styraciflua,Sweetgum,non-native,Star-shaped leaf with 5-7 pointed lobes; spiky ball fruit. Native to the southeastern US.,no,
 liriodendron_tulipifera,Tulip tree,native,"Distinctive four-lobed leaf with a flat, notched tip. Carolinian zone of southern Ontario.",no,
 maclura_pomifera,Osage orange,non-native,Glossy oval leaf with a long tip; large green bumpy fruit; thorny. Native to the south-central US.,no,
-magnolia_acuminata,Cucumber tree,native,Large oval leaf with smooth edges and a pointed tip. Ontario's only native magnolia; endangered.,no,confirm at-risk status
+magnolia_acuminata,Cucumber tree,native,"Large oval leaf with smooth edges and a pointed tip. Ontario's only native magnolia; endangered, with fewer than 200 wild trees in Niagara and Norfolk County.",first-pass,ontario.ca species-at-risk page: Endangered
 magnolia_denudata,Yulan magnolia,non-native,Oval leaf widest near the tip; white flowers before the leaves. Chinese ornamental.,no,
 magnolia_grandiflora,Southern magnolia,non-native,"Large thick glossy evergreen leaf, often rusty underneath. Native to the southeastern US; not hardy in Ontario.",no,
 magnolia_macrophylla,Bigleaf magnolia,non-native,Huge leaf (up to 80 cm) with an ear-shaped base. Native to the southeastern US.,no,
@@ -95,8 +95,8 @@ malus_floribunda,Japanese flowering crabapple,non-native,Small oval toothed leaf
 malus_hupehensis,Tea crabapple,non-native,Oval finely toothed leaf with a long tip. Chinese ornamental.,no,
 malus_pumila,Apple,non-native,"Oval toothed leaf, fuzzy underneath. European/Asian; naturalized in Ontario from old orchards.",no,
 metasequoia_glyptostroboides,Dawn redwood,non-native,"Soft flat needles in opposite pairs, shed in fall with the twig. Chinese living fossil.",no,
-morus_alba,White mulberry,invasive,Glossy leaf that can be unlobed or mitten-shaped; hybridizes with and threatens native red mulberry.,no,confirm invasive
-morus_rubra,Red mulberry,native,"Rough sandpapery leaf, unlobed or lobed, with a long tip. Endangered in Ontario, partly from hybridizing with white mulberry.",no,confirm at-risk status
+morus_alba,White mulberry,invasive,Glossy leaf that can be unlobed or mitten-shaped; hybridizes with and threatens native red mulberry.,first-pass,Invasive on Thames River CA and Credit Valley CA lists; OIPC proposed it for regulation
+morus_rubra,Red mulberry,native,"Rough sandpapery leaf, unlobed or lobed, with a long tip. Endangered in Ontario, partly from hybridizing with white mulberry.",first-pass,ontario.ca species-at-risk page: Endangered (reconfirmed 2015)
 nyssa_sylvatica,Black gum (black tupelo),native,"Glossy oval leaf with smooth edges, brilliant red in fall. Uncommon in southern Ontario.",no,
 ostrya_virginiana,Ironwood (hop-hornbeam),native,Oval double-toothed leaf like a birch; hop-like fruit clusters; shreddy bark.,no,
 oxydendrum_arboreum,Sourwood,non-native,Long narrow finely toothed leaf with a sour taste. Native to the southeastern US.,no,
@@ -116,9 +116,9 @@ pinus_parviflora,Japanese white pine,non-native,Short twisted needles in bundles
 pinus_peucea,Macedonian pine,non-native,Needles in bundles of 5. Balkans.,no,
 pinus_pungens,Table Mountain pine,non-native,Stiff twisted needles in bundles of 2; very spiny cones. Appalachian.,no,
 pinus_resinosa,Red pine,native,Long needles in bundles of 2 that snap cleanly when bent; reddish plated bark.,no,
-pinus_rigida,Pitch pine,native,Stiff needles in bundles of 3; tufts of needles can sprout from the trunk. Rare in Ontario (Thousand Islands area).,no,confirm native / location
+pinus_rigida,Pitch pine,native,"Stiff needles in bundles of 3; tufts of needles can sprout from the trunk. Ontario's only native three-needle pine, found only in the Thousand Islands area near Gananoque.",first-pass,U of Guelph Arboretum; Ontario Parks
 pinus_strobus,Eastern white pine,native,Soft flexible needles in bundles of 5. Ontario's provincial tree.,no,
-pinus_sylvestris,Scots pine,non-native,Twisted blue-green needles in bundles of 2; orange upper bark. European; naturalized and spreading in parts of southern Ontario.,no,non-native or invasive?
+pinus_sylvestris,Scots pine,invasive,Twisted blue-green needles in bundles of 2; orange upper bark. European; spreads into natural areas in southern Ontario.,first-pass,Was non-native: changed to invasive per Thames River CA list and Credit Valley CA (moderately invasive)
 pinus_taeda,Loblolly pine,non-native,Long needles in bundles of 3. Native to the southeastern US.,no,
 pinus_thunbergii,Japanese black pine,non-native,Stiff dark needles in bundles of 2; white buds. Japanese.,no,
 pinus_virginiana,Virginia pine,non-native,Short twisted needles in bundles of 2. Native to the eastern US.,no,
@@ -136,7 +136,7 @@ prunus_subhirtella,Higan cherry,non-native,Small narrow sharply toothed leaf; of
 prunus_virginiana,Chokecherry,native,"Oval leaf with very fine sharp teeth, widest above the middle; dark astringent fruit in clusters.",no,
 prunus_yedoensis,Yoshino cherry,non-native,"Oval double-toothed leaf with a long tip. Japanese ornamental cherry (High Park, Toronto).",no,
 pseudolarix_amabilis,Golden larch,non-native,"Soft flat needles in clusters on spur shoots, turning gold before falling. Chinese.",no,
-ptelea_trifoliata,Hop-tree,native,Compound leaf with 3 leaflets; papery round winged fruit. Lake Erie shoreline; a species at risk in Ontario.,no,confirm at-risk status
+ptelea_trifoliata,Hop-tree,native,Compound leaf with 3 leaflets; papery round winged fruit. Lake Erie shoreline; special concern in Ontario.,first-pass,ontario.ca species-at-risk page: Special Concern (down-listed from Threatened in 2017)
 pyrus_calleryana,Callery pear,non-native,Glossy oval leaf with wavy fine teeth. Chinese street tree; invasive in parts of the eastern US.,no,
 quercus_acutissima,Sawtooth oak,non-native,Long narrow chestnut-like leaf with bristle-tipped teeth. East Asian.,no,
 quercus_alba,White oak,native,"Leaf with 7-9 rounded lobes, no bristle tips.",no,
@@ -148,18 +148,18 @@ quercus_imbricaria,Shingle oak,non-native,Narrow leaf with smooth edges and a si
 quercus_macrocarpa,Bur oak,native,Leaf with a deep pair of sinuses near the middle and a broad wavy upper half; fringed acorn cap.,no,
 quercus_marilandica,Blackjack oak,non-native,"Leathery leaf shaped like a bell, broad at the tip with 3 shallow bristle-tipped lobes. Native to the southeastern US.",no,
 quercus_michauxii,Swamp chestnut oak,non-native,"Leaf with large rounded teeth, widest near the tip. Native to the southeastern US.",no,
-quercus_montana,Chestnut oak,non-native,Leaf with regular rounded teeth along the edge; thick ridged bark. Native to the eastern US.,no,native in Ontario or not?
+quercus_montana,Chestnut oak,non-native,"Leaf with regular rounded teeth along the edge; thick ridged bark. Native to the eastern US just south of Ontario, not to Canada.",first-pass,"Canadian Encyclopedia: a near-native, not native in Canada"
 quercus_muehlenbergii,Chinquapin oak,native,"Leaf with sharp, evenly spaced teeth (not lobes). Southern Ontario.",no,
 quercus_nigra,Water oak,non-native,"Small leaf widest at the tip, spoon-shaped with variable lobing. Native to the southeastern US.",no,
 quercus_palustris,Pin oak,native,Deeply cut bristle-tipped lobes with U-shaped sinuses; drooping lower branches. Southwestern Ontario; common street tree.,no,
 quercus_phellos,Willow oak,non-native,Narrow willow-like leaf with smooth edges and a bristle tip. Native to the southeastern US.,no,
 quercus_robur,English oak,non-native,Rounded lobes with small ear-like lobes at the base of a very short leaf stalk. European; naturalized in places.,no,
 quercus_rubra,Northern red oak,native,Leaf with 7-11 bristle-tipped lobes and moderately deep sinuses.,no,
-quercus_shumardii,Shumard oak,native,"Deeply cut bristle-tipped lobes, glossy. Rare in southwestern Ontario; a species at risk.",no,confirm at-risk status
+quercus_shumardii,Shumard oak,native,"Deeply cut bristle-tipped lobes, glossy. Special concern in Ontario; Essex, Kent, Elgin, Lambton and Niagara.",first-pass,ontario.ca species-at-risk page: Special Concern
 quercus_stellata,Post oak,non-native,Thick leaf with two large middle lobes giving a cross shape. Native to the southeastern US.,no,
 quercus_velutina,Black oak,native,Glossy bristle-tipped lobed leaf; yellow-orange inner bark. Southern Ontario sandy sites.,no,
 quercus_virginiana,Southern live oak,non-native,Small thick evergreen leaf with smooth curled edges. Native to the US Gulf and Atlantic coasts.,no,
-robinia_pseudo-acacia,Black locust,invasive,Compound leaf with 7-19 small oval leaflets; paired thorns at the base of each leaf. Native to the southeastern US; spreads into open habitats in Ontario.,no,confirm invasive
+robinia_pseudo-acacia,Black locust,invasive,Compound leaf with 7-19 small oval leaflets; paired thorns at the base of each leaf. Native to the southeastern US; spreads into open habitats in Ontario.,first-pass,Invasive Species Centre; Thames River CA and Credit Valley CA lists
 salix_babylonica,Weeping willow,non-native,Long narrow finely toothed leaf on long hanging branches. Chinese.,no,
 salix_caroliniana,Coastal plain willow,non-native,Narrow finely toothed leaf with a whitish underside. Native to the southeastern US.,no,
 salix_matsudana,Chinese willow (corkscrew willow),non-native,"Narrow leaf, often on twisted branches in the corkscrew form. Chinese.",no,
@@ -181,6 +181,6 @@ ulmus_americana,American elm,native,Oval double-toothed leaf with an uneven base
 ulmus_glabra,Wych elm,non-native,"Large rough double-toothed leaf, sometimes with 3 points at the tip. European.",no,
 ulmus_parvifolia,Chinese elm (lacebark elm),non-native,Small glossy leathery leaf with single teeth; patchy flaking bark. East Asian.,no,
 ulmus_procera,English elm,non-native,Small rough round double-toothed leaf with an uneven base. European.,no,
-ulmus_pumila,Siberian elm,non-native,Small leaf with a nearly even base (unlike native elms) and single teeth. Asian; spreads readily in disturbed areas.,no,non-native or invasive?
+ulmus_pumila,Siberian elm,invasive,Small leaf with a nearly even base (unlike native elms) and single teeth. Asian; spreads readily in disturbed areas.,first-pass,Was non-native: changed to invasive per Thames River CA and Credit Valley CA lists
 ulmus_rubra,Slippery elm,native,Large very rough leaf with double teeth; slimy inner bark.,no,
 zelkova_serrata,Japanese zelkova,non-native,Elm-like leaf with sharp single teeth curving toward the tip. East Asian street tree.,no,
