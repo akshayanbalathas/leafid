@@ -40,12 +40,12 @@ copy `MyDrive/leafid/reports/<run>/` to `reports/<run>/` in a PR, and add the ro
 
 ## README / write-up (Nov 30 – Dec 3)
 
-- [ ] Section 1, problem formulation (15% of the grade): still TODO
+- [x] Section 1, problem formulation (15% of the grade): drafted, needs a team read-through
 - [ ] Screenshots of the app (section 7)
 - [ ] Figures: validation curves (section 6 plot) and a confusion matrix
 - [ ] Add the pine → chokecherry Grad-CAM screenshot (`screenshot.png`, untracked in the project root) to
       `reports/figures/` and the duplicates finding
-- [ ] Describe Qwen2.5's training data (the course asks how each model's weights were obtained)
+- [x] Describe how each model's weights were obtained, incl. Qwen2.5's training data (README section 2)
 - [ ] Project ID, team names, roles, video link, slides link at the top
 
 ## Slides and video (Nov 30 – Dec 3)
