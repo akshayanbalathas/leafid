@@ -198,12 +198,8 @@ results stop being comparable. (It was regenerated once, as v2, to remove duplic
 | Nov 23 – 29 | All experiments run + evaluated · app working end-to-end in Colab · `species_info.csv` completed and verified · **feature freeze Sun Nov 29** |
 | Nov 30 – Dec 3 | README results + screenshots · slides (PDF) · ≤10-min video showing the app **and** the repo · submit |
 
-**Open TODOs**
-- [ ] Verify `assets/species_info.csv`: all 185 species are drafted (common name, Ontario status, leaf notes).
-      The 24 least certain rows had a first pass against sources (`verified = first-pass`, source in `to_check`):
-      spot-check those sources, then skim the other 161 (`verified = no`) against VASCAN and Ontario's Species at
-      Risk list. Set `verified = yes` on each row you confirm.
-- [ ] Add project ID, team names, video link and slides link at the top of this README.
+**Open TODOs:** see [`BACKLOG.md`](BACKLOG.md) (experiments, species data, app, write-up, slides, video).
+Note: `assets/species_info.csv` is only partly verified; see [`assets/README.md`](assets/README.md).
 
 ## References
 
