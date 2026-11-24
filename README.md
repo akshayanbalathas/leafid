@@ -199,8 +199,10 @@ results stop being comparable. (It was regenerated once, as v2, to remove duplic
 | Nov 30 – Dec 3 | README results + screenshots · slides (PDF) · ≤10-min video showing the app **and** the repo · submit |
 
 **Open TODOs**
-- [ ] Verify the 11 seeded rows in `assets/species_info.csv` against the Ontario Invasive Plant Council /
-      Ontario government sources, then fill in the remaining species.
+- [ ] Verify `assets/species_info.csv`: all 185 species are drafted (common name, Ontario status, leaf notes),
+      but none are checked yet (`verified = no`). Start with the 24 rows that have a `to_check` note, using the
+      Ontario Invasive Plant Council, Ontario's Species at Risk list and Ontario's tree atlas; set
+      `verified = yes` on each row you confirm.
 - [ ] Add project ID, team names, video link and slides link at the top of this README.
 
 ## References
