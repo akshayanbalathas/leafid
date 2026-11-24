@@ -265,9 +265,10 @@ results stop being comparable. (It was regenerated once, as v2, to remove duplic
 
 | Week | Goals |
 |---|---|
-| Nov 16 – 22 | Repo up · `splits.csv` committed · scratch CNN baseline (Tue Nov 17) · first ResNet-50 run · roles agreed |
-| Nov 23 – 29 | All experiments run + evaluated · app working end-to-end in Colab · `species_info.csv` completed and verified · **feature freeze Sun Nov 29** |
-| Nov 30 – Dec 3 | README results + screenshots · slides (PDF) · ≤10-min video showing the app **and** the repo · submit |
+| Nov 16 – 24 | Repo up · split v2 (duplicates removed) · scratch CNNs, ResNet-50 and CLIP baseline run · README problem + results drafted |
+| Nov 24 – 27 | **Exam week (exam Fri Nov 27): light work only** · `resnet50_probe` + `resnet50_labonly` if there's time · optional app testing |
+| Nov 28 – 30 | Remaining runs evaluated · app session (cards, edge cases, screenshots, own Ontario photos) · `species_info.csv` verified · **feature freeze Mon Nov 30** |
+| Dec 1 – 3 | Figures + README polish · slides (PDF) · ≤10-min video showing the app **and** the repo · submit |
 
 **Open TODOs:** see [`BACKLOG.md`](BACKLOG.md) (experiments, species data, app, write-up, slides, video).
 Note: `assets/species_info.csv` is only partly verified; see [`assets/README.md`](assets/README.md).
